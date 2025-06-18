@@ -21,12 +21,23 @@ export const login = async (payload: LoginType) => {
   try {
     const response = await api.post('/auth/login', payload)
     return response.data
-  } catch (error: any) {
-    console.error('Login error:', error?.response?.data || error.message)
+  } catch (error: unknown) {
+  if (axios.isAxiosError(error)) {
+    console.error('Login error:', error.response?.data || error.message)
     throw new Error(
-      error?.response?.data?.message || 'Login failed. Please try again.'
+      error.response?.data?.message || 'Login failed. Please try again.'
     )
+  } else if (error instanceof Error) {
+    // handle other Error types
+    console.error('Login error:', error.message)
+    throw error
+  } else {
+    // fallback for unknown error shapes
+    console.error('Login error:', error)
+    throw new Error('Login failed. Please try again.')
   }
+}
+
 }
 
 export const fetchme = async () => {

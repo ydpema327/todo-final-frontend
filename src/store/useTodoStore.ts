@@ -34,11 +34,17 @@ export const useTodoStore = create<TodoStore>((set) => ({
     try {
       const res = await getTodos()
       set({ todos: res.data, loading: false })
-    } catch (err: any) {
-      const message = err.message || 'Failed to fetch todos'
-      toast.error(message)
-      set({ error: message, loading: false })
-    }
+    }catch (err: unknown) {
+  let message = 'Default error message'
+
+  if (err instanceof Error) {
+    message = err.message
+  }
+
+  toast.error(message)
+  set({ error: message, loading: false })
+}
+
   },
 
   addTodo: async (payload) => {
@@ -50,11 +56,17 @@ export const useTodoStore = create<TodoStore>((set) => ({
         loading: false,
       }))
       toast.success('Todo created successfully!')
-    } catch (err: any) {
-      const message = err.message || 'Failed to create todo'
-      toast.error(message)
-      set({ error: message, loading: false })
-    }
+    } catch (err: unknown) {
+  let message = 'Default error message'
+
+  if (err instanceof Error) {
+    message = err.message
+  }
+
+  toast.error(message)
+  set({ error: message, loading: false })
+}
+
   },
 
   updateTodo: async (id, payload) => {
@@ -68,11 +80,17 @@ export const useTodoStore = create<TodoStore>((set) => ({
         loading: false,
       }))
       toast.success('Todo updated successfully!')
-    } catch (err: any) {
-      const message = err.message || 'Failed to update todo'
-      toast.error(message)
-      set({ error: message, loading: false })
-    }
+    } catch (err: unknown) {
+  let message = 'Default error message'
+
+  if (err instanceof Error) {
+    message = err.message
+  }
+
+  toast.error(message)
+  set({ error: message, loading: false })
+}
+
   },
 
   deleteTodo: async (id) => {
@@ -84,11 +102,17 @@ export const useTodoStore = create<TodoStore>((set) => ({
         loading: false,
       }))
       toast.success('Todo deleted successfully!')
-    } catch (err: any) {
-      const message = err.message || 'Failed to delete todo'
-      toast.error(message)
-      set({ error: message, loading: false })
-    }
+    } catch (err: unknown) {
+  let message = 'Default error message'
+
+  if (err instanceof Error) {
+    message = err.message
+  }
+
+  toast.error(message)
+  set({ error: message, loading: false })
+}
+
   },
 
   clearCompleted: () => {
