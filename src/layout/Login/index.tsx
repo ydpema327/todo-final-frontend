@@ -21,8 +21,8 @@ const LogIn = () => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      phone: 0,
-      password: '',
+      phone: undefined,
+      password: undefined,
     },
   })
 
@@ -34,7 +34,7 @@ const LogIn = () => {
         password: data.password,
       })
 
-      // ✅ Navigate to home on successful login
+      // Navigate on success
       navigate('/')
     } catch (error) {
       toast.error(
@@ -46,20 +46,26 @@ const LogIn = () => {
   }
 
   return (
-    <main className="flex items-center justify-center min-h-screen px-4">
-      <div className="w-full max-w-md">
-        <section className="flex flex-col items-center w-full px-6">
-          <header className="mb-6 text-center">
-            <h1 className="text-3xl font-bold text-gray-900">Welcome Back 👋</h1>
-            <p className="mt-2 text-sm text-gray-500">
-              Please enter your credentials to continue
+    <main className="flex items-center justify-center min-h-screen bg-gradient-to-tr from-white via-gray-50 to-gray-100 px-6 py-12 select-none">
+      <div
+        className="w-full max-w-md bg-white rounded-3xl shadow-lg border border-gray-200 p-10
+                   backdrop-filter backdrop-blur-sm"
+      >
+        <section className="flex flex-col items-center w-full">
+          <header className="mb-8 text-center">
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight drop-shadow-sm">
+              Welcome Back <span aria-label="wave" role="img">👋</span>
+            </h1>
+            <p className="mt-2 text-base text-gray-600 max-w-sm mx-auto leading-relaxed">
+              Please enter your credentials to continue.
             </p>
           </header>
 
           <Form {...form}>
             <form
-              className="space-y-6 w-full"
+              className="space-y-7 w-full"
               onSubmit={form.handleSubmit(onSubmit)}
+              noValidate
             >
               <CustomInput
                 control={form.control}
@@ -67,30 +73,37 @@ const LogIn = () => {
                 label="Phone"
                 type="number"
                 placeholder="Enter your phone number"
+                className="bg-gray-50 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 rounded-xl border border-gray-300 shadow-sm transition"
               />
 
               <CustomInput
                 control={form.control}
                 name="password"
                 label="Password"
+                type="password"
                 placeholder="Enter your password"
+                className="bg-gray-50 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 rounded-xl border border-gray-300 shadow-sm transition"
+               
               />
 
               <Button
                 type="submit"
                 disabled={isLoading || loading}
-                className="w-full rounded-md bg-blue-600 px-4 py-2 text-white font-semibold hover:bg-blue-700 transition-colors disabled:opacity-60"
+                className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600
+                           text-white font-semibold py-3 text-lg shadow-lg hover:shadow-xl
+                           hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700
+                           transition duration-300 disabled:opacity-60"
               >
-                Login
+                {isLoading ? 'Logging in...' : 'Login'}
               </Button>
             </form>
           </Form>
 
-          <footer className="mt-6 text-center text-sm text-gray-600">
+          <footer className="mt-8 text-center text-sm text-gray-700">
             Don’t have an account?{' '}
             <Link
               to="/sign-up"
-              className="font-medium text-blue-600 hover:underline"
+              className="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors duration-150"
             >
               Sign up
             </Link>

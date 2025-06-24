@@ -13,6 +13,7 @@ interface CustomInputProps<T extends FieldValues> {
   label: string
   placeholder: string
   type?: string
+  className?: string
 }
 
 const CustomInput = <T extends FieldValues>({
